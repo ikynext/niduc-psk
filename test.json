@@ -1,0 +1,51 @@
+{
+    "configs": [
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0,
+                    2.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    8,
+                    8
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0,
+                    0.0
+                ]
+            }
+        }
+    ],
+    "number_of_tests": 2,
+    "signal_len": 32,
+    "signal_power": 1.0,
+    "snr": 100.0
+}
