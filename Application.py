@@ -1,6 +1,8 @@
 import komm
 import numpy as np
 import random
+import jsonplus
+import jsonplus as json
 import openpyxl
 from os import system, name
 
@@ -13,11 +15,13 @@ def main():
             generate_data()
         elif choice == 2:
             options()
+        elif choice == 3:
+            automatic_tests()
 
 
 # Options
-amplitude = 1.0,  # Nie usuwac "," bo nie bedzie tuple
-phase_offset = 0.0,  # UP
+amplitudes = 1.0,  # Nie usuwac "," bo nie bedzie tuple
+phase_offsets = 0.0,  # UP
 orders = 4,  # UP
 snr = 100.0  # Signal to Noise Ratio
 signal_power = 1.0  # Moc sygnalu
@@ -33,22 +37,23 @@ M E N U      G L O W N E
 ========================
 1. Generacja danych
 2. Ustawienia programu
+3. Testy automatyczne
 0. Zakoncz
 ========================""")
     choice = int(input(">>"))
 
-    if choice in [0, 1, 2]:
+    if choice in [0, 1, 2, 3]:
         return choice
 
     return get_main_input()
 
 
 def generate_data():
-    global amplitude, phase_offset, orders, snr, signal_power, number_of_tests, signal_len, digits
+    global amplitudes, phase_offsets, orders, snr, signal_power, number_of_tests, signal_len, digits
     sheet_name = input(">> Nazwa arkusza: ")
     # Kanal i modulacja
     channel = komm.AWGNChannel(snr=snr, signal_power=signal_power)
-    modulation = komm.APSKModulation(orders=orders, amplitudes=amplitude, phase_offsets=phase_offset)
+    modulation = komm.APSKModulation(orders=orders, amplitudes=amplitudes, phase_offsets=phase_offsets)
     # Wypisanie wynikow od excela
     wb = openpyxl.load_workbook(filename="Wyniki.xlsx")
     ws = wb.create_sheet(sheet_name)  # Utworzenie arkusza
@@ -63,8 +68,8 @@ def generate_data():
     ws['M5'] = "Moc sygnalu"
     ws['M6'] = "Liczba testow"
     ws['M7'] = "Dlugosc sygnalu"
-    ws['N1'] = str(amplitude)
-    ws['N2'] = str(phase_offset)
+    ws['N1'] = str(amplitudes)
+    ws['N2'] = str(phase_offsets)
     ws['N3'] = str(orders)
     ws['N4'] = str(snr)
     ws['N5'] = str(signal_power)
@@ -78,10 +83,7 @@ def generate_data():
         sygnal_zaklocony = channel(sygnal_zakodowany)
         sygnal_wyjsciowy = modulation.demodulate(sygnal_zaklocony)
         #BER
-        ber = 0
-        for we, wy in zip(sygnal_wejsciowy, sygnal_wyjsciowy):
-            if we != wy:
-                ber += 1
+        ber = get_ber(sygnal_wejsciowy, sygnal_wyjsciowy)
         ws.cell(row=i+1, column=1).value = i  # Numer
         ws.cell(row=i + 1, column=2).value = ber  # BER
     wb.save("Wyniki.xlsx")
@@ -91,12 +93,12 @@ def generate_data():
 
 def options():
     clear()
-    global amplitude, phase_offset, number_of_tests, signal_len
+    global amplitudes, phase_offsets, number_of_tests, signal_len, orders
     print(f"""========================
 USTAWIENIA SYGNALU
 ------------------------
-1. Amplituda = {str(amplitude)[1:-1]}
-2. Przesunięcie = {str(phase_offset)[1:-1]}
+1. Amplituda = {str(amplitudes)[1:-1]}
+2. Przesunięcie = {str(phase_offsets)[1:-1]}
 3. Rzad = {str(orders)[1:-1]}
 ========================
 USTAWIENIA KANALU
@@ -116,11 +118,11 @@ USTAWIENIA TESTOW
     if choice == 0:
         return
     elif choice == 1:
-        amplitude = tuple(map(float, input(">>Amplituda =").split(',')))
+        amplitudes = tuple(map(float, input(">>Amplituda =").split(',')))
     elif choice == 2:
-        phase_offset = tuple(map(float, input(">>Przesuniecie =").split(',')))
+        phase_offsets = tuple(map(float, input(">>Przesuniecie =").split(',')))
     elif choice == 3:
-        phase_offset = tuple(map(int, input(">>Rzad =").split(',')))
+        orders = tuple(map(int, input(">>Rzad =").split(',')))
     elif choice == 4:
         number_of_tests = int(input(">>SNR = : "))
     elif choice == 5:
@@ -132,9 +134,9 @@ USTAWIENIA TESTOW
     options()
 
 
-def generate_random_signal():
+def generate_random_signal(len=signal_len):
     tmp = []
-    for i in range(signal_len):
+    for i in range(len):
         tmp.append(random.randint(0, 1))
     return tmp
 
@@ -147,6 +149,39 @@ def clear():  #Czyszczenie ekranu
     #else:
     #    _ = system('clear')
     print("\n"*5)
+
+
+def get_ber(s1, s2):
+    ber = 0
+    for we, wy in zip(s1, s2):
+        if we != wy:
+            ber += 1
+    return ber
+
+
+def single_test(amplitudes, phase_offsets, orders, snr, signal_power, signal_len):
+    channel = komm.AWGNChannel(snr=snr, signal_power=signal_power)
+    modulation = komm.APSKModulation(orders=orders, amplitudes=amplitudes, phase_offsets=phase_offsets)
+    sygnal_wejsciowy = generate_random_signal(signal_len)
+    sygnal_zakodowany = modulation.modulate(sygnal_wejsciowy)
+    sygnal_zaklocony = channel(sygnal_zakodowany)
+    syglad_wyjsciowy = modulation.demodulate(sygnal_zaklocony)
+    ber = get_ber(sygnal_wejsciowy, syglad_wyjsciowy)
+    return ber/signal_len
+
+
+def automatic_tests():
+    with open('test.json', 'r') as read_file:
+        cfg = json.loads(read_file.read())
+        snr = cfg['snr']
+        signal_len = cfg['signal_len']
+        signal_power = cfg['signal_power']
+#        number_of_tests=cfg['number_of_tests']
+        for config in cfg['configs']:
+            # Tutaj testy
+            print(single_test(amplitudes=config['amplitudes'], phase_offsets=config['phase_offsets'], orders=config['orders'],
+                              snr=snr, signal_power=signal_power, signal_len=signal_len))
+        input("Waiting for ENTER...")
 
 
 if __name__ == "__main__":
