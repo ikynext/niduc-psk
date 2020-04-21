@@ -1,7 +1,6 @@
 import komm
 import numpy as np
 import random
-import jsonplus
 import jsonplus as json
 import openpyxl
 from os import system, name
