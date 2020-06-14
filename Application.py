@@ -1,6 +1,7 @@
 import komm
 import numpy as np
 import random
+import jsonplus
 import jsonplus as json
 import openpyxl
 from os import system, name
@@ -26,7 +27,7 @@ snr = 100.0  # Signal to Noise Ratio
 signal_power = 1.0  # Moc sygnalu
 number_of_tests = 50  # Liczba testow
 signal_len = 32  # Dlugosc sygnalu
-digits = 4  # Dokladnosc zaokraglenia
+# digits = 4  # Dokladnosc zaokraglenia
 
 
 def get_main_input():
@@ -39,16 +40,18 @@ M E N U      G L O W N E
 3. Testy automatyczne
 0. Zakoncz
 ========================""")
-    choice = int(input(">>"))
+    choice = input(">>")
+    while choice == "":
+        choice = input(">>")
 
-    if choice in [0, 1, 2, 3]:
-        return choice
+    if int(choice) in [0, 1, 2, 3]:
+        return int(choice)
 
     return get_main_input()
 
 
 def generate_data():
-    global amplitudes, phase_offsets, orders, snr, signal_power, number_of_tests, signal_len, digits
+    global amplitudes, phase_offsets, orders, snr, signal_power, number_of_tests, signal_len #, digits
     sheet_name = input(">> Nazwa arkusza: ")
     # Kanal i modulacja
     channel = komm.AWGNChannel(snr=snr, signal_power=signal_power)
@@ -59,6 +62,7 @@ def generate_data():
     # Ustalenie naglowkow
     ws['A1'] = "Numer"
     ws['B1'] = "BER"
+    ws['C1'] = "Szybkosc transmisji"
     # Wypisanie danych symulacji
     ws['M1'] = "Amplituda"
     ws['M2'] = "Przesuniecie fazowe"
@@ -84,7 +88,8 @@ def generate_data():
         #BER
         ber = get_ber(sygnal_wejsciowy, sygnal_wyjsciowy)
         ws.cell(row=i+1, column=1).value = i  # Numer
-        ws.cell(row=i + 1, column=2).value = ber  # BER
+        ws.cell(row=i+1, column=2).value = ber  # BER
+        ws.cell(row=i+1, column=3).value = modulation.bits_per_symbol
     wb.save("Wyniki.xlsx")
     print(f"Zakonczono testy - wyniki znajduja sie w pliku Wyniki.xlsx w arkuszu {sheet_name}")
     input("Wcisnij ENTER, aby kontynuowac ...")
@@ -109,10 +114,10 @@ USTAWIENIA TESTOW
 ------------------------
 6. Liczba testow = {number_of_tests}
 7. Dlugosc sygnalu = {signal_len}
-8. Dokladnosc zaokraglen = {digits}
 ========================
 0. Powrot
 ========================""")
+#8. Dokladnosc zaokraglen = {digits}
     choice = int(input(">>"))
     if choice == 0:
         return
@@ -129,14 +134,19 @@ USTAWIENIA TESTOW
     elif choice == 6:
         number_of_tests = int(input(">>Liczba testow = : "))
     elif choice == 7:
-        signal_len = int(input(">>Dokladnosc zaokraglen = : "))
+        signal_len = int(input(">>Dlugosc sygnalu = : "))
     options()
 
 
 def generate_random_signal(len=signal_len):
     tmp = []
+    rng = random.SystemRandom()
     for i in range(len):
-        tmp.append(random.randint(0, 1))
+        r = rng.random()
+        if r < 0.5:
+            tmp.append(0)
+        else:
+            tmp.append(1)
     return tmp
 
 
@@ -158,15 +168,14 @@ def get_ber(s1, s2):
     return ber
 
 
-def single_test(amplitudes, phase_offsets, orders, snr, signal_power, signal_len):
+def single_test(amplitudes, phase_offsets, orders, snr, signal_power, signal_len, sygnal_wejsciowy):
     channel = komm.AWGNChannel(snr=snr, signal_power=signal_power)
     modulation = komm.APSKModulation(orders=orders, amplitudes=amplitudes, phase_offsets=phase_offsets)
-    sygnal_wejsciowy = generate_random_signal(signal_len)
     sygnal_zakodowany = modulation.modulate(sygnal_wejsciowy)
     sygnal_zaklocony = channel(sygnal_zakodowany)
-    syglad_wyjsciowy = modulation.demodulate(sygnal_zaklocony)
-    ber = get_ber(sygnal_wejsciowy, syglad_wyjsciowy)
-    return ber/signal_len
+    sygnal_wyjsciowy = modulation.demodulate(sygnal_zaklocony)
+    ber = get_ber(sygnal_wejsciowy, sygnal_wyjsciowy)
+    return round(ber/signal_len, 3), modulation.bits_per_symbol
 
 
 def automatic_tests():
@@ -174,12 +183,21 @@ def automatic_tests():
         cfg = json.loads(read_file.read())
         snr = cfg['snr']
         signal_len = cfg['signal_len']
+        signal = generate_random_signal(signal_len)
         signal_power = cfg['signal_power']
-#        number_of_tests=cfg['number_of_tests']
+        number_of_tests = cfg['number_of_tests']
+        print(f"SNR={snr}       Signal_len={signal_len}     Signal_Power={signal_power}     Number_of_tests={number_of_tests}")
         for config in cfg['configs']:
             # Tutaj testy
-            print(single_test(amplitudes=config['amplitudes'], phase_offsets=config['phase_offsets'], orders=config['orders'],
-                              snr=snr, signal_power=signal_power, signal_len=signal_len))
+            print(f"{config['amplitudes']} {config['phase_offsets']} {config['orders']}", end=" ")
+            for i in range(cfg['number_of_tests']):
+                results = single_test(amplitudes=config['amplitudes'], phase_offsets=config['phase_offsets'],
+                                      orders=config['orders'], snr=snr, signal_power=signal_power, signal_len=signal_len,
+                                      sygnal_wejsciowy=signal)
+                if i == 0:
+                    print(results[1], end=" ")
+                print(results[0], end=" ")
+            print("")
         input("Waiting for ENTER...")
 
 
