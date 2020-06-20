@@ -16,7 +16,7 @@ def main():
         elif choice == 2:
             options()
         elif choice == 3:
-            automatic_tests()
+            automatic_tests2()
 
 
 # Options
@@ -178,6 +178,12 @@ def single_test(amplitudes, phase_offsets, orders, snr, signal_power, signal_len
     return round(ber/signal_len, 3), modulation.bits_per_symbol
 
 
+def single_test2(channel, modulation, sygnal_wejsciowy):
+    sygnal_wyjsciowy = modulation.demodulate(channel(modulation.modulate(sygnal_wejsciowy)))
+    ber = get_ber(sygnal_wejsciowy, sygnal_wyjsciowy)
+    return round(ber/len(sygnal_wejsciowy), 3)
+
+
 def automatic_tests():
     with open('test.json', 'r') as read_file:
         cfg = json.loads(read_file.read())
@@ -189,14 +195,36 @@ def automatic_tests():
         print(f"SNR={snr}       Signal_len={signal_len}     Signal_Power={signal_power}     Number_of_tests={number_of_tests}")
         for config in cfg['configs']:
             # Tutaj testy
-            print(f"{config['amplitudes']} {config['phase_offsets']} {config['orders']}", end=" ")
+            print(f"{config['amplitudes']}; {config['phase_offsets']}; {config['orders']};", end=" ")
             for i in range(cfg['number_of_tests']):
                 results = single_test(amplitudes=config['amplitudes'], phase_offsets=config['phase_offsets'],
                                       orders=config['orders'], snr=snr, signal_power=signal_power, signal_len=signal_len,
                                       sygnal_wejsciowy=signal)
                 if i == 0:
-                    print(results[1], end=" ")
-                print(results[0], end=" ")
+                    print(results[1], end="; # ;")
+                print(results[0], end="; ")
+            print("")
+        input("Waiting for ENTER...")
+
+
+def automatic_tests2():
+    with open('test.json', 'r') as read_file:
+        cfg = json.loads(read_file.read())
+        snr = cfg['snr']
+        signal_len = cfg['signal_len']
+        signal = generate_random_signal(signal_len)
+        signal_power = cfg['signal_power']
+        number_of_tests = cfg['number_of_tests']
+        print(f"SNR={snr}       Signal_len={signal_len}     Signal_Power={signal_power}     Number_of_tests={number_of_tests}")
+        channel = komm.AWGNChannel(snr=snr, signal_power=signal_power)
+        for config in cfg['configs']:
+            # Tutaj testy
+            print(f"{config['amplitudes']}; {config['phase_offsets']}; {config['orders']};", end=" ")
+            modulation = komm.APSKModulation(
+                orders=config['orders'], amplitudes=config['amplitudes'], phase_offsets=config['phase_offsets'])
+            print(modulation.bits_per_symbol, end="; # ;")
+            for i in range(cfg['number_of_tests']):
+                print(single_test2(channel=channel, modulation=modulation, sygnal_wejsciowy=signal), end="; ")
             print("")
         input("Waiting for ENTER...")
 
