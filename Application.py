@@ -208,7 +208,7 @@ def automatic_tests():
 
 
 def automatic_tests2():
-    with open('test.json', 'r') as read_file:
+    with open('tests_cfg.json', 'r') as read_file:
         cfg = json.loads(read_file.read())
         snr = cfg['snr']
         signal_len = cfg['signal_len']
