@@ -1,0 +1,433 @@
+{
+    "configs": [
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 4
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 4
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.785398
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 4, 8
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.0, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 4, 8
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.785398, 0.392699
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 6, 6
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.0, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 6, 6
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.785398, 0.392699
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0, 4.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 4, 4, 4
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.0, 0.0, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0, 4.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 4, 4, 4
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.785398, 0.392699, 1.178097
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0, 4.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 8, 8, 12
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.0, 0.0, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0, 4.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 8, 8, 12
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.785398, 0.392699, 1.178097
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0, 4.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 8, 10, 10
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.0, 0.0, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0, 4.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 8, 10, 10
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.785398, 0.392699, 1.178097
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0, 4.0, 5.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 4, 8, 8, 8
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.0, 0.0, 0.0, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0, 4.0, 5.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 4, 8, 8, 8
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.785398, 0.392699, 1.178097, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0, 4.0, 5.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 8, 12, 16, 24
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.0, 0.0, 0.0, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0, 4.0, 5.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 8, 12, 16, 24
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.785398, 0.392699, 1.178097, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    2.0, 4.0, 6.0, 8.0, 10.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 8, 12, 16, 24
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.0, 0.0, 0.0, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    2.0, 4.0, 6.0, 8.0, 10.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 8, 12, 16, 24
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.785398, 0.392699, 1.178097, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    2.0, 4.0, 6.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 4, 8
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.0, 0.0
+                ]
+            }
+        },
+        {
+            "amplitudes": {
+                "__class__": "tuple",
+                "__value__": [
+                    2.0, 4.0, 6.0
+                ]
+            },
+            "orders": {
+                "__class__": "tuple",
+                "__value__": [
+                    4, 4, 8
+                ]
+            },
+            "phase_offsets": {
+                "__class__": "tuple",
+                "__value__": [
+                    0.0, 0.785398, 0.392699
+                ]
+            }
+        }
+    ],
+    "number_of_tests": 10,
+    "signal_len": 10080,
+    "signal_power": 1.0,
+    "snr": {
+                "__class__": "tuple",
+                "__value__": [
+                    1.0, 2.0, 3.0, 4.0, 5.0
+                ]
+            }
+}
